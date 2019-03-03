@@ -9,7 +9,7 @@ pkg_search_module(PCRE REQUIRED libpcre)
 
 include_directories(${GLIB_INCLUDE_DIRS})
 
-set(test_SRCS test.c)
+set(temperature_SRCS main.c)
 
-add_executable(testi ${test_SRCS})
-target_link_libraries(testi ${GATTLIB_LIBRARIES} ${GATTLIB_LDFLAGS} ${GLIB_LDFLAGS} ${PCRE_LIBRARIES} pthread)
+add_executable(temperature ${temperature_SRCS})
+target_link_libraries(temperature ${GATTLIB_LIBRARIES} ${GATTLIB_LDFLAGS} ${GLIB_LDFLAGS} ${PCRE_LIBRARIES} pthread)
