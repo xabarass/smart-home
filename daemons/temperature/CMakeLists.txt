@@ -6,10 +6,11 @@ find_package(PkgConfig REQUIRED)
 pkg_search_module(GATTLIB REQUIRED gattlib)
 pkg_search_module(GLIB REQUIRED glib-2.0)
 pkg_search_module(PCRE REQUIRED libpcre)
+pkg_search_module(ZMQ REQUIRED zmq)
 
 include_directories(${GLIB_INCLUDE_DIRS})
 
 set(temperature_SRCS main.c communicator.c)
 
 add_executable(temperature ${temperature_SRCS})
-target_link_libraries(temperature ${GATTLIB_LIBRARIES} ${GATTLIB_LDFLAGS} ${GLIB_LDFLAGS} ${PCRE_LIBRARIES} pthread)
+target_link_libraries(temperature ${GATTLIB_LIBRARIES} ${GATTLIB_LDFLAGS} ${GLIB_LDFLAGS} ${PCRE_LIBRARIES} ${ZMQ_LIBRARIES} pthread)

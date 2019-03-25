@@ -4,6 +4,7 @@
 #include <stdlib.h>
 #include <stdbool.h>
 
+#include "communicator.h"
 #include "gattlib.h"
 
 #define MAX_PROPERTIES 10
@@ -127,11 +128,7 @@ bool start_notifications(struct state* program_state, gatt_connection_t* connect
 
 	return true;
 }
-/*
- 
-struct communicator* new_communicator(char* server);
-void value_changed(struct communicator* cmn, char* property_name, double new_value);
- */
+
 int main(int argc, char *argv[]) {
 	int ret;
 	gatt_connection_t* connection;
@@ -142,7 +139,7 @@ int main(int argc, char *argv[]) {
 	}
 	
 	struct state program_state = {.count=0};
-	program_state->cmn=new_communicator("tcp://*:5556");
+	program_state.cmn=new_communicator("tcp://*:5556");
 	if (!init_properties(&program_state)){
 		goto cleanup;
 	}
@@ -166,6 +163,7 @@ int main(int argc, char *argv[]) {
 	gattlib_disconnect(connection);
 	puts("Done");
 cleanup:
+	puts("Running cleanup...");
 	free_state(&program_state);
 	return 0;
 }
