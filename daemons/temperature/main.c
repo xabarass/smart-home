@@ -24,6 +24,8 @@ struct property {
 	prop_updated update;
 	// debug function
 	print_prop debug_print;
+	// Notification handler
+	struct communicator* cmn;
 };
 
 struct float_property {
@@ -41,7 +43,7 @@ void print_float_prop(struct property* prop){
 	printf("%s: %f\n", fl_prop->prop.name, fl_prop->value);
 }
 
-bool create_float_property(struct property** element, char* UUID, char* name){
+bool create_float_property(struct property** element, char* UUID, char* name, struct communicator* cmn){
 	struct float_property* new_prop = (struct float_property*)malloc(sizeof(struct float_property));
 	*element = (struct property*)new_prop;
 	// parse uuid
@@ -54,21 +56,23 @@ bool create_float_property(struct property** element, char* UUID, char* name){
 	new_prop->prop.buff_len=4;
 	new_prop->prop.update=update_float_prop;
 	new_prop->prop.debug_print=print_float_prop;
+	new_prop->prop.cmn = cmn;
 	
 	return true;
 }
 struct state {
 	struct property* properties[MAX_PROPERTIES];
 	size_t count;
+	struct communicator* cmn;
 };
 
 bool init_properties(struct state* program_state){
 	if (!create_float_property(&program_state->properties[program_state->count++],
-		"00002235-b38d-4985-720e-0f993a68ee41","Temperature")){
+		"00002235-b38d-4985-720e-0f993a68ee41","Temperature", program_state->cmn)){
 		return false;
 	}
 	if (!create_float_property(&program_state->properties[program_state->count++],
-		"00001235-b38d-4985-720e-0f993a68ee41","Humidity")){
+		"00001235-b38d-4985-720e-0f993a68ee41","Humidity", program_state->cmn)){
 		return false;
 	}
 
@@ -123,7 +127,11 @@ bool start_notifications(struct state* program_state, gatt_connection_t* connect
 
 	return true;
 }
-
+/*
+ 
+struct communicator* new_communicator(char* server);
+void value_changed(struct communicator* cmn, char* property_name, double new_value);
+ */
 int main(int argc, char *argv[]) {
 	int ret;
 	gatt_connection_t* connection;
@@ -134,6 +142,7 @@ int main(int argc, char *argv[]) {
 	}
 	
 	struct state program_state = {.count=0};
+	program_state->cmn=new_communicator("tcp://*:5556");
 	if (!init_properties(&program_state)){
 		goto cleanup;
 	}
