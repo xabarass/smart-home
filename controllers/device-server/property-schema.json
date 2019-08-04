@@ -1,0 +1,12 @@
+{
+	"types":{
+		"temperature_scale":{
+			"option":["CELSIUS","FAHRENHEIT", "KELVIN"]
+		}
+	},
+	"property_schemas":{
+		"temperature":{
+			"value":"double",
+			"scale":"temperature_scale"
+		}
+}

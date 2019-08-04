@@ -1,0 +1,15 @@
+{
+  "name": "event-logger",
+  "version": "1.0.0",
+  "description": "Application used for logging device events to time series database",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Milan Pandurov",
+  "license": "ISC",
+  "dependencies": {
+    "influx": "^5.0.7",
+    "zeromq": "^5.1.0"
+  }
+}
