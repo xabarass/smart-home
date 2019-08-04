@@ -19,7 +19,7 @@ void notify_value_changed(struct communicator* cmn, char* property_name, float n
 	s_send(cmn->value_changes, buffer);
 }
 
-void close(struct communicator* cmn){
+void communicator_close(struct communicator* cmn){
 	assert(cmn);
 	zmq_close (cmn->value_changes);
 	zmq_ctx_destroy (cmn->context);

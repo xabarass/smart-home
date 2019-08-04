@@ -8,4 +8,5 @@ struct communicator {
 };
 
 struct communicator* new_communicator(char* server);
-void value_changed(struct communicator* cmn, char* property_name, float new_value);
+void notify_value_changed(struct communicator* cmn, char* property_name, float new_value);
+void communicator_close(struct communicator* cmn);

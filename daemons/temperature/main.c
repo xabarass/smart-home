@@ -37,6 +37,7 @@ struct float_property {
 void update_float_prop(struct property* prop, const uint8_t* new_data, size_t data_length){
 	struct float_property* fl_prop = (struct float_property*)prop;
 	fl_prop->value=*((const float*)new_data);
+	notify_value_changed(prop->cmn, prop->name, fl_prop->value);
 }
 
 void print_float_prop(struct property* prop){
